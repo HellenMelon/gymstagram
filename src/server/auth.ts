@@ -1,11 +1,13 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { eq, lt, gte, ne } from 'drizzle-orm';
 import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
-import DiscordProvider from "next-auth/providers/discord";
+import CredentialsProvider from "next-auth/providers/credentials";
+
 
 import { env } from "~/env";
 import { db } from "~/server/db";
@@ -32,8 +34,13 @@ declare module "next-auth" {
   }
 
   // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
+  //   id: string;
+  //   name: string | null;
+  //   username: string;
+  //   password: string;
+  //   email: string;
+  //   emailVerified: Date | null;
+  //   image: string | null;
   // }
 }
 
@@ -59,10 +66,32 @@ export const authOptions: NextAuthOptions = {
     verificationTokensTable: verificationTokens,
   }) as Adapter,
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
-    }),
+
+    CredentialsProvider({
+      // The name to display on the sign in form (e.g. "Sign in with...")
+      name: "Credentials",
+      // `credentials` is used to generate a form on the sign in page.
+      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials, req) {
+        // Add logic here to look up the user from the credentials supplied
+        if (!credentials) {
+          return null;
+        }
+        const user = await db.select().from(users).where(eq(users.username, credentials.username));
+
+        if (user.length === 0) {
+          return null;
+        } else {
+          return user[0]!;
+        }
+      }
+    })
     /**
      * ...add more providers here.
      *

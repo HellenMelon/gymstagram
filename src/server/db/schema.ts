@@ -41,6 +41,8 @@ export const users = createTable("user", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name", { length: 255 }),
+  username: text("username", { length: 255 }).notNull(),
+  password: text("password", { length: 255 }).notNull(),
   email: text("email", { length: 255 }).notNull(),
   emailVerified: int("emailVerified", {
     mode: "timestamp",
