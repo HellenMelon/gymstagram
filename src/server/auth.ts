@@ -1,5 +1,5 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { eq, lt, gte, ne } from 'drizzle-orm';
+import { eq } from "drizzle-orm";
 import {
   getServerSession,
   type DefaultSession,
@@ -8,8 +8,6 @@ import {
 import { type Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-
-import { env } from "~/env";
 import { db } from "~/server/db";
 import {
   accounts,
@@ -34,13 +32,7 @@ declare module "next-auth" {
   }
 
   // interface User {
-  //   id: string;
-  //   name: string | null;
-  //   username: string;
-  //   password: string;
-  //   email: string;
-  //   emailVerified: Date | null;
-  //   image: string | null;
+  //   // TODO: add fields as necessary
   // }
 }
 
@@ -50,13 +42,22 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+    maxAge: 2 * 60 * 60, // 2 hours
+  },
   callbacks: {
-    session: ({ session, user }) => ({
+    session: ({ session, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: user.id,
+        id: token.id,
+        role: token.role,
       },
+    }),
+    jwt: async ({ token, user }) => ({
+      ...token,
+      ...user,
     }),
   },
   adapter: DrizzleAdapter(db, {
@@ -66,7 +67,6 @@ export const authOptions: NextAuthOptions = {
     verificationTokensTable: verificationTokens,
   }) as Adapter,
   providers: [
-
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
@@ -76,22 +76,26 @@ export const authOptions: NextAuthOptions = {
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
+      async authorize(credentials, _) {
         if (!credentials) {
           return null;
         }
-        const user = await db.select().from(users).where(eq(users.username, credentials.username));
+        const user = await db
+          .select()
+          .from(users)
+          .where(eq(users.username, credentials.username));
+
+        console.log(user);
 
         if (user.length === 0) {
           return null;
         } else {
           return user[0]!;
         }
-      }
-    })
+      },
+    }),
     /**
      * ...add more providers here.
      *
