@@ -1,10 +1,12 @@
 "use client";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 import { api } from "~/trpc/react";
 
 export default function RegisterForm() {
+  const router = useRouter();
+
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,7 +14,7 @@ export default function RegisterForm() {
 
   const { mutate: signUp, isPending } = api.auth.register.useMutation({
     onSuccess: () => {
-      redirect("/auth/login");
+      router.push("/auth/login");
     },
   });
 
