@@ -87,7 +87,8 @@ export const authOptions: NextAuthOptions = {
           .from(users)
           .where(eq(users.username, credentials.username));
 
-        console.log(user);
+        // TODO: check that the passwords match
+
 
         if (user.length === 0) {
           return null;
