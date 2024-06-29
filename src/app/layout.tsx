@@ -11,6 +11,7 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/logo.png" }],
 };
 
+
 export default function RootLayout({
   children,
 }: {
@@ -22,6 +23,9 @@ export default function RootLayout({
         <ClientProviders>
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </ClientProviders>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+        </style>
       </body>
     </html>
   );
