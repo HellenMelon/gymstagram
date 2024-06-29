@@ -4,6 +4,8 @@ import { TRPCReactProvider } from "~/trpc/react";
 import ClientProviders from "./providers";
 import Head from "next/head";
 import { DM_Sans } from "next/font/google";
+import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
 
 export const metadata = {
   title: "Gymstagram",
@@ -24,9 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={hellensFav.className}>
       <body>
-        <ClientProviders>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-        </ClientProviders>
+        <Theme>
+          <ClientProviders>
+            <TRPCReactProvider>{children}</TRPCReactProvider>
+          </ClientProviders>
+        </Theme>
       </body>
     </html>
   );

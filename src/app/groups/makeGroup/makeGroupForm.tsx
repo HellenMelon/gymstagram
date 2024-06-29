@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { type FormEvent, useState, useEffect } from "react";
 import Navbar from "~/app/_components/navbar";
 import { Plus } from "iconoir-react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { UploadButton } from "~/app/_components/uploadthing";
 
@@ -13,13 +13,23 @@ export default function MakeGroupForm() {
   const [groupPhoto, setGroupPhoto] = useState("");
   const [usernames, setUserIds] = useState("");
 
+  const ctx = api.useUtils();
+
+  const router = useRouter();
+
   // react query hooks
-  const { mutate: createGroup } = api.group.createGroup.useMutation();
+  const { mutate: createGroup } = api.group.createGroup.useMutation({
+    onSuccess: () => {
+      void ctx.group.getGroupsOfUser.invalidate();
+
+      router.push("/groups");
+    },
+  });
 
   const session = useSession();
 
   if (session.status === "loading") return <></>;
-  if (session.status === "unauthenticated") redirect("/auth/login");
+  if (session.status === "unauthenticated") router.push("/auth/login");
   if (!session.data) return <></>;
 
   const create = async (e: FormEvent<HTMLFormElement>) => {
@@ -31,7 +41,7 @@ export default function MakeGroupForm() {
 
     // Function for creating and setting the group
     try {
-      await createGroup({
+      createGroup({
         name: groupName,
         photo: groupPhoto,
         usernames: userNameArray,
@@ -73,7 +83,7 @@ export default function MakeGroupForm() {
 
       <div>
         <UploadButton
-          className="block ut-button:h-auto ut-button:w-full ut-button:bg-gray-600 ut-allowed-content:hidden ut-uploading:bg-green-500/50"
+          className="ut-button:h-auto ut-button:w-full ut-button:bg-gray-600 ut-allowed-content:hidden"
           endpoint="imageUploader"
           content={{
             button() {

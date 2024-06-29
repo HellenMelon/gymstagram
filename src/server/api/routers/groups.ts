@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import z from "node_modules/zod/lib";
 import {
@@ -31,12 +32,35 @@ export const groupRouter = createTRPCRouter({
         const userId = await ctx.db
           .select()
           .from(users)
-          .where(eq(users.name, username));
+          .where(eq(users.username, username));
+
+        if (userId.length == 0) {
+          throw new TRPCError({ message: "No user", code: "NOT_FOUND" });
+        }
         await ctx.db.insert(groupUsers).values({
           group: groupId,
           user: userId[0]!.id,
         });
       }
       return true;
+    }),
+
+  getGroupsOfUser: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await await ctx.db
+        .select({
+          groupId: group.id,
+          groupName: group.name,
+          groupPhoto: group.photo,
+          userId: groupUsers.user,
+        })
+        .from(groupUsers)
+        .innerJoin(group, eq(groupUsers.group, group.id))
+        .where(eq(groupUsers.user, input.userId));
     }),
 });
