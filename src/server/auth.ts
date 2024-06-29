@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
         ...session.user,
         id: token.id,
         role: token.role,
+        image: session.user.image,
       },
     }),
     jwt: async ({ token, user }) => ({
@@ -88,7 +89,6 @@ export const authOptions: NextAuthOptions = {
           .where(eq(users.username, credentials.username));
 
         // TODO: check that the passwords match
-
 
         if (user.length === 0) {
           return null;
