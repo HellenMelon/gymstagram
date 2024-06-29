@@ -6,15 +6,6 @@ import MakeGroupForm from "./makeGroupForm";
 export default function MakeGroupPage() {
   return (
     <div className="flex min-h-screen flex-col justify-center bg-[#ffe6d9]">
-      {/* <div className="flex w-full flex-grow items-center justify-center bg-[#ffe6d9]">
-        <Image
-          src="/logo.png"
-          alt="logo"
-          className="w-full max-w-64"
-          width={300}
-          height={300}
-        />
-      </div> */}
       <div className="flex h-screen w-full flex-col bg-white p-8 py-10 shadow-lg">
         <div className="flex flex-grow flex-col items-center justify-center">
           <Image

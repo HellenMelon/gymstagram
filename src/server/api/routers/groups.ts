@@ -63,4 +63,35 @@ export const groupRouter = createTRPCRouter({
         .innerJoin(group, eq(groupUsers.group, group.id))
         .where(eq(groupUsers.user, input.userId));
     }),
+
+  getGroup: protectedProcedure
+    .input(
+      z.object({
+        groupId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db
+        .select()
+        .from(group)
+        .where(eq(group.id, input.groupId));
+    }),
+
+  getUsersOfGroup: protectedProcedure
+    .input(
+      z.object({
+        groupId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db
+        .select({
+          userId: users.id,
+          name: users.name,
+          photo: users.image,
+        })
+        .from(groupUsers)
+        .innerJoin(users, eq(groupUsers.user, users.id))
+        .where(eq(groupUsers.group, input.groupId));
+    }),
 });
