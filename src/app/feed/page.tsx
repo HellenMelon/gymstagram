@@ -1,10 +1,9 @@
-import { api } from "~/trpc/server";
 import Header from "../_components/header";
 import Navbar from "../_components/navbar";
 import DailyChallenges from "./dailyChallenges";
-import { DummyPostData } from "./dummyDataPosts";
 import CurrWorkoutRoutine from "./currWorkoutRoutine";
 import PostFeed from "./postFeed";
+import { Suspense } from "react";
 
 export default function Page() {
   return (
@@ -12,11 +11,14 @@ export default function Page() {
       style={{
         backgroundColor: "#e2f7c6",
       }}
+      className="flex min-h-screen w-full flex-col justify-start gap-4 bg-[#e2f7c6]"
     >
       <Header name="Home" />
 
       <DailyChallenges />
-      <CurrWorkoutRoutine />
+      <Suspense fallback={<div>Loading...</div>}>
+        <CurrWorkoutRoutine />
+      </Suspense>
       <PostFeed />
       <div className="p-10"></div>
       <Navbar />
