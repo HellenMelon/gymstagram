@@ -13,26 +13,27 @@ export default function LoginForm() {
     await signIn("credentials", {
       username,
       password,
-      callbackUrl: "/",
+      callbackUrl: "/feed",
     });
   };
 
   return (
     <form className="space-y-6" onSubmit={login}>
       <div>
-        <label
+        {/* <label
           htmlFor="username"
           className="block text-sm font-medium text-gray-700"
         >
           Username
-        </label>
+        </label> */}
         <div className="mt-1">
           <input
             id="username"
             name="username"
             type="text"
             required
-            className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+            placeholder="Username"
+            className="block w-full appearance-none border-b border-gray-300 py-2 placeholder-gray-400 shadow-sm transition-all focus:border-blue-500 focus:outline-none active:outline-none sm:text-sm"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -78,7 +79,10 @@ export default function LoginForm() {
         </div>
 
         <div className="text-sm">
-          <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+          <a
+            href="#"
+            className="font-medium text-[#EBB595] hover:text-[#ffc8a8]"
+          >
             Forgot your password?
           </a>
         </div>
@@ -87,7 +91,7 @@ export default function LoginForm() {
       <div>
         <button
           type="submit"
-          className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="flex w-full justify-center rounded-md border border-transparent bg-[#EBB595] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Sign in
         </button>

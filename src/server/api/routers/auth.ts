@@ -11,6 +11,7 @@ export const authRouter = createTRPCRouter({
         username: z.string(),
         password: z.string(),
         email: z.string(),
+        imageUrl: z.string().optional(),
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -19,6 +20,7 @@ export const authRouter = createTRPCRouter({
         username: input.username,
         password: input.password,
         email: input.email,
+        image: input.imageUrl,
       });
     }),
 });
