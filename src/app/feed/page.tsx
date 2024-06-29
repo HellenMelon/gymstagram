@@ -12,6 +12,7 @@ export default function Page() {
       style={{
         backgroundColor: "#e2f7c6",
       }}
+      className="flex min-h-screen w-full flex-col justify-start gap-4 bg-[#e2f7c6]"
     >
       <Header name="Home" />
 

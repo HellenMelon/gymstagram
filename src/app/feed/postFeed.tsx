@@ -5,7 +5,6 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { DummyPostData, DummyPostDataType } from "./dummyDataPosts";
-import { Box } from "@mui/material";
 
 interface postProps {
   post: DummyPostDataType;
@@ -22,7 +21,6 @@ function Post({ post }: postProps) {
         marginRight: "5%",
         maxWidth: 600,
         margin: "auto",
-        mt: 2,
       }}
     >
       <CardHeader title={post.createdById} subheader={post.createdAt} />
@@ -44,10 +42,10 @@ function Post({ post }: postProps) {
 export default function PostFeed() {
   const postsData = DummyPostData;
   return (
-    <Box>
+    <div className="space-y-4">
       {postsData.map((post) => (
         <Post key={post.id} post={post} />
       ))}
-    </Box>
+    </div>
   );
 }

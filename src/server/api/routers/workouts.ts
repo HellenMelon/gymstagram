@@ -1,7 +1,7 @@
 import { workout, workoutExercises } from "~/server/db/schema";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { z } from "zod";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export const workoutsRouter = createTRPCRouter({
   create: protectedProcedure
@@ -51,6 +51,22 @@ export const workoutsRouter = createTRPCRouter({
         },
       },
       where: eq(workout.createdBy, ctx.session.user.id),
+    });
+  }),
+
+  get: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    return await ctx.db.query.workout.findFirst({
+      with: {
+        workoutExercises: {
+          with: {
+            exercise: true,
+          },
+        },
+      },
+      where: and(
+        eq(workout.id, input),
+        eq(workout.createdBy, ctx.session.user.id),
+      ),
     });
   }),
 });
