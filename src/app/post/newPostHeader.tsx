@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Header({ name }: { name: string }) {
+export default function NewPostHeader({ name }: { name: string }) {
   return (
     <div
       className="fixed left-0 right-0 top-0 flex justify-center"
@@ -14,7 +14,9 @@ export default function Header({ name }: { name: string }) {
         fontWeight: "bold",
       }}
     >
-      {name}
+      <button className="text-lg text-black">&larr;</button>
+      <span className="mx-auto">{name}</span>
+      <div style={{ width: "30px" }}></div>{" "}
     </div>
   );
 }
