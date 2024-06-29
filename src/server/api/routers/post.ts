@@ -1,5 +1,6 @@
-import { z } from "zod";
+import { createTRPCRouter } from "../trpc";
 
+<<<<<<< HEAD
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -38,3 +39,6 @@ export const postRouter = createTRPCRouter({
     return "you can now see this secret message!";
   }),
 });
+=======
+export const postRouter = createTRPCRouter({});
+>>>>>>> f5f2d78409c994933d761d87e008f4784f50ae6c
