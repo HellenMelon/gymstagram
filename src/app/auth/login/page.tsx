@@ -17,6 +17,13 @@ export default function Login() {
       </div> */}
       <div className="flex h-screen w-full flex-col bg-white p-8 py-10 shadow-lg">
         <div className="flex flex-grow flex-col items-center justify-center">
+          <Image
+            src="/mainLogo.png"
+            alt="logo"
+            className="mb-8 w-full max-w-64"
+            width={300}
+            height={300}
+          />
           <h2 className="mb-6 text-center text-2xl font-bold text-gray-900">
             Login to your account
           </h2>
