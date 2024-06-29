@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 import { api } from "~/trpc/react";
@@ -30,66 +31,46 @@ export default function RegisterForm() {
   };
 
   return (
-    <form className="space-y-6" onSubmit={register}>
+    <form className="min-w-[80%] space-y-6" onSubmit={register}>
       <div>
-        <label
-          htmlFor="username"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Username
-        </label>
-        <div className="mt-1">
-          <input
-            id="username"
-            name="username"
-            type="text"
-            autoComplete="username"
-            required
-            className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            disabled={isPending}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Name
-        </label>
         <div className="mt-1">
           <input
             id="name"
             name="name"
             type="text"
-            autoComplete="name"
             required
-            className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+            placeholder="Name"
+            className="block w-full appearance-none border-b border-gray-300 py-2 placeholder-gray-400 shadow-sm transition-all focus:border-[#bbdf8c] focus:outline-none active:outline-none sm:text-sm"
             value={name}
             onChange={(e) => setName(e.target.value)}
             disabled={isPending}
           />
         </div>
       </div>
-
       <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Email address
-        </label>
+        <div className="mt-1">
+          <input
+            id="username"
+            name="username"
+            type="text"
+            required
+            placeholder="Username"
+            className="block w-full appearance-none border-b border-gray-300 py-2 placeholder-gray-400 shadow-sm transition-all focus:border-[#bbdf8c] focus:outline-none active:outline-none sm:text-sm"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            disabled={isPending}
+          />
+        </div>
+      </div>
+      <div>
         <div className="mt-1">
           <input
             id="email"
             name="email"
             type="email"
-            autoComplete="email"
             required
-            className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+            placeholder="Email"
+            className="block w-full appearance-none border-b border-gray-300 py-2 placeholder-gray-400 shadow-sm transition-all focus:border-[#bbdf8c] focus:outline-none active:outline-none sm:text-sm"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={isPending}
@@ -98,33 +79,56 @@ export default function RegisterForm() {
       </div>
 
       <div>
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Password
-        </label>
         <div className="mt-1">
           <input
             id="password"
             name="password"
             type="password"
-            autoComplete="new-password"
+            autoComplete="current-password"
             required
-            className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+            className="block w-full appearance-none border-b border-gray-300 py-2 placeholder-gray-400 shadow-sm transition-all focus:border-[#bbdf8c] focus:outline-none active:outline-none sm:text-sm"
             value={password}
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             disabled={isPending}
           />
         </div>
       </div>
 
+      {/* <div className="flex flex-row items-center">
+        <p>Upload a profile picture</p>
+        <UploadButton
+          className="ut-button:bg-[#bbdf8c]"
+          endpoint="imageUploader"
+          onClientUploadComplete={(res) => {
+            console.log("Files: ", res);
+          }}
+          onUploadError={(error: Error) => {
+            // Do something with the error.
+            alert(`ERROR! ${error.message}`);
+          }}
+        />
+      </div> */}
+
+      <div className="flex items-center justify-center gap-8">
+        <p className="text-sm">
+          Already have an account?{" "}
+          <Link
+            href="/auth/login"
+            className="text-[#8cd52d] hover:text-[#c1e097]"
+          >
+            Login
+          </Link>{" "}
+          instead.
+        </p>
+      </div>
+
       <div>
         <button
           type="submit"
-          className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="flex w-full justify-center rounded-md border border-transparent bg-[#bbdf8c] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#b3db7f] focus:outline-none focus:ring-2 focus:ring-offset-2"
         >
-          Register
+          Join Us!
         </button>
       </div>
     </form>
