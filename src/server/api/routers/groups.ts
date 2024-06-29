@@ -52,7 +52,7 @@ export const groupRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      return await await ctx.db
+      return await ctx.db
         .select({
           groupId: group.id,
           groupName: group.name,
