@@ -16,25 +16,6 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = sqliteTableCreator((name) => `gymstagram_${name}`);
 
-export const posts = createTable(
-  "post",
-  {
-    id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-    createdById: text("createdById", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    createdAt: int("created_at", { mode: "timestamp" })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: int("updatedAt", { mode: "timestamp" }),
-    image: text("image", { length: 255 }).notNull(),
-    caption: text("caption", { length: 255 }),
-  },
-  (example) => ({
-    createdByIdIdx: index("createdById_idx").on(example.createdById),
-  }),
-);
-
 /**
  * USER SCHEMA
  */
@@ -72,6 +53,31 @@ export const workout = createTable("workouts", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
+
+/**
+ * POST SCHEMA
+ */
+export const posts = createTable(
+  "post",
+  {
+    id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+    createdById: text("createdById", { length: 255 })
+      .notNull()
+      .references(() => users.id),
+    createdAt: int("created_at", { mode: "timestamp" })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: int("updatedAt", { mode: "timestamp" }),
+    image: text("image", { length: 255 }).notNull(),
+    caption: text("caption", { length: 255 }),
+    workoutDone: text("workoutDone", { length: 255 })
+      .notNull()
+      .references(() => workout.id),
+  },
+  (example) => ({
+    createdByIdIdx: index("createdById_idx").on(example.createdById),
+  }),
+);
 
 export const workoutRelations = relations(workout, ({ many }) => ({
   workoutExercises: many(workoutExercises),

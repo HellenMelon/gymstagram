@@ -1,3 +1,5 @@
+export default function PostCaption() {}
+
 {
   /* <div className="mb-4">
         <h2 className="text-2xl font-semibold">Workout title</h2>
