@@ -35,20 +35,144 @@ export const posts = createTable(
   })
 );
 
+/**
+ * USER SCHEMA 
+ */
 export const users = createTable("user", {
   id: text("id", { length: 255 })
     .notNull()
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
+  email: text("email", { length: 255 }).notNull(),
   name: text("name", { length: 255 }),
   username: text("username", { length: 255 }).notNull(),
   password: text("password", { length: 255 }).notNull(),
-  email: text("email", { length: 255 }).notNull(),
   emailVerified: int("emailVerified", {
     mode: "timestamp",
   }).default(sql`CURRENT_TIMESTAMP`),
   image: text("image", { length: 255 }),
 });
+
+/**
+ * WORKOUTS SCHEMA
+ */
+export const workout = createTable("workouts", {
+  id: text("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+
+  createdBy: text("createdBy", { length: 255 })
+    .notNull()
+    .references(() => users.id),
+
+  name: text("name", { length: 255 })
+    .notNull(),
+  
+  time: int("time", { mode: "timestamp" })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+
+});
+
+/**
+ * EXERCIESE SCHEMA
+ */
+export const exercise = createTable("exercise", {
+  id: text("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+
+  createdBy: text("createdBy", { length: 255 })
+    .notNull()
+    .references(() => users.id),
+
+  name: text("name", { length: 255 })
+    .notNull(),
+  
+  time: int("time", { mode: "timestamp" })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+
+  weight: int("weight", { mode: "number" })
+    .notNull(),
+
+  set: int("set", { mode: "number" })
+    .notNull()
+});
+
+
+/**
+ * MANY TO MANY WORKOUTEXERCISE SCHEMA
+ */
+export const workoutExercises = createTable( "workoutExercises", {
+  workout: text("id", { length: 255 })
+    .references(() => workout.id)
+    .notNull(),
+  exercise: text("id", { length: 255 })
+    .references(() => exercise.id)
+    .notNull(),
+  },
+  (workoutExercises) => ({
+    compoundKey: primaryKey({
+      columns: [workoutExercises.workout, workoutExercises.exercise],
+    })
+  })
+);
+
+/**
+ * GROUPS SCHEMA
+ */
+export const group = createTable( "group", {
+  id: text("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name", { length: 255 })
+    .notNull(),
+
+  photo: text("photo", { length: 255 })
+  }
+);
+
+/**
+ * MANY TO MANY, WHERE A MANY GROUPS CAN HAVE MANY OF THE USERS EXERCISES GROUP EXERCISE SCHEMA 
+ */
+export const groupExercises = createTable( "groupExercises", {
+  group: text("group", { length: 255 })
+    .references(() => group.id)
+    .notNull(),
+
+  exercise: text("exercise", { length: 255 })
+    .references(() => exercise.id)
+    .notNull()
+  },
+  (groupExercises) => ({
+    compoundKey: primaryKey({
+      columns: [groupExercises.group, groupExercises.exercise],
+    })
+  })
+);
+
+/**
+ * MANY TO MANY, WHERE A GROUPS CAN HAVE MANY USERS EXERCISE SCHEMA
+ */
+export const groupUsers = createTable( "groupUsers", {
+  group: text("group", { length: 255 })
+    .references(() => group.id)
+    .notNull(),
+
+  user: text("user", { length: 255 })
+    .references(() => exercise.id)
+    .notNull()
+  },
+  (groupUsers) => ({
+    compoundKey: primaryKey({
+      columns: [groupUsers.group, groupUsers.user],
+    })
+  })
+)
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
