@@ -83,6 +83,8 @@ export default function DailyChallenges() {
             },
           }}
           disableElevation
+          component="a"
+          href="http://localhost:3000/post"
         >
           Post your daily challenge!
         </Button>

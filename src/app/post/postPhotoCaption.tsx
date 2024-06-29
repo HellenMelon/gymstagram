@@ -1,10 +1,8 @@
 "use client";
 
-import { Divider, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import { type FormEvent, useState } from "react";
+import { Divider } from "@mui/material";
 
-export default function PostDate() {
+export default function PostPhotoCaption() {
   const date = new Date();
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
@@ -22,7 +20,7 @@ export default function PostDate() {
       <Divider sx={{ width: "100%" }} />
 
       <div className="flex items-center p-4">
-        <div className="mr-4 flex h-16 w-16 items-center justify-center rounded-lg border border-dashed border-gray-300">
+        <div className="mr-4 flex h-20 w-20 items-center justify-center rounded-lg border border-dashed border-gray-300 py-5">
           <svg
             className="h-8 w-8 text-green-600"
             fill="none"
@@ -42,11 +40,11 @@ export default function PostDate() {
       </div>
       <Divider sx={{ width: "100%" }} />
 
-      <div className="items-left justify-left mt-5 flex flex-col px-10 py-5">
+      <div className="items-left justify-left mt-3 flex flex-col px-5 py-3">
         <p className="text-gray-500">Caption</p>
         <textarea
           className="h-32 focus:outline-none"
-          placeholder="How did your workout go?"
+          placeholder="How did your workout go? Leave some notes..."
         />
       </div>
 
