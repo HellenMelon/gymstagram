@@ -3,7 +3,6 @@ import Navbar from "../_components/navbar";
 import NewPostHeader from "./newPostHeader";
 import PostDate from "./postPhotoCaption";
 import SelectWorkout from "./selectWorkout";
-import SelectWorkout2 from "./selectWorkout2";
 import Image from "next/image";
 
 export default function Page() {
