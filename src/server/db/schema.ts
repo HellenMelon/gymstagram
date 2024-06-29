@@ -155,7 +155,7 @@ export const group = createTable("group", {
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name", { length: 255 }).notNull(),
 
-  photo: text("photo", { length: 255 }),
+  photo: text("photo", { length: 255 }).notNull(),
 });
 
 /**
