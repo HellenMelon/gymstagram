@@ -1,9 +1,9 @@
-import Link from "next/link";
-import RegisterForm from "./registerForm";
-import { ArrowLeft } from "iconoir-react";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft } from "iconoir-react";
+import MakeGroupForm from "./makeGroupForm";
 
-export default function Register() {
+export default function MakeGroupPage() {
   return (
     <div className="flex min-h-screen flex-col justify-center bg-[#ffe6d9]">
       {/* <div className="flex w-full flex-grow items-center justify-center bg-[#ffe6d9]">
@@ -18,19 +18,19 @@ export default function Register() {
       <div className="flex h-screen w-full flex-col bg-white p-8 py-10 shadow-lg">
         <div className="flex flex-grow flex-col items-center justify-center">
           <Image
-            src="/mainLogo.png"
+            src="/logo.png"
             alt="logo"
-            className="mb-8 w-full max-w-64"
+            className="mb-4 w-full max-w-40"
             width={300}
             height={300}
           />
           <h2 className="mb-6 text-center text-2xl font-bold text-gray-900">
-            Register for an account
+            Make your group
           </h2>
-          <RegisterForm />
+          <MakeGroupForm />
         </div>
       </div>
-      <Link href="/" className="fixed left-8 top-8">
+      <Link href="/groups" className="fixed left-8 top-8">
         <ArrowLeft className="h-7 w-7" />
       </Link>
     </div>

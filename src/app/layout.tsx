@@ -1,9 +1,11 @@
 import "~/styles/globals.css";
-
 import { GeistSans } from "geist/font/sans";
-
 import { TRPCReactProvider } from "~/trpc/react";
 import ClientProviders from "./providers";
+import Head from "next/head";
+import { DM_Sans } from "next/font/google";
+import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
 
 export const metadata = {
   title: "Gymstagram",
@@ -11,6 +13,10 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/logo.png" }],
 };
 
+const hellensFav = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 export default function RootLayout({
   children,
@@ -18,14 +24,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html lang="en" className={hellensFav.className}>
       <body>
-        <ClientProviders>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-        </ClientProviders>
-        <style>
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-        </style>
+        <Theme>
+          <ClientProviders>
+            <TRPCReactProvider>{children}</TRPCReactProvider>
+          </ClientProviders>
+        </Theme>
       </body>
     </html>
   );
