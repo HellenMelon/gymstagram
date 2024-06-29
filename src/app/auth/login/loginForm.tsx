@@ -105,7 +105,7 @@ export default function LoginForm() {
           onClick={() => router.push("/auth/register")}
           className="w-full justify-center text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2"
         >
-          Don't have an account? <span className="underline">Sign up</span>
+          Don&apos;t have an account? <span className="underline">Sign up</span>
         </button>
       </div>
     </form>
