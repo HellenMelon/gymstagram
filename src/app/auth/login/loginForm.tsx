@@ -1,11 +1,14 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const router = useRouter();
 
   const login = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -94,6 +97,15 @@ export default function LoginForm() {
           className="flex w-full justify-center rounded-md border border-transparent bg-[#bbdf8c] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#b3db7f] focus:outline-none focus:ring-2 focus:ring-offset-2"
         >
           Sign in
+        </button>
+      </div>
+
+      <div>
+        <button
+          onClick={() => router.push("/auth/register")}
+          className="w-full justify-center text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2"
+        >
+          Don&apos;t have an account? <span className="underline">Sign up</span>
         </button>
       </div>
     </form>
