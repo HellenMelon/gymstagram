@@ -36,5 +36,7 @@ export const authRouter = createTRPCRouter({
         .update(users)
         .set({ image: input.url })
         .where(eq(users.id, ctx.session.user.id));
+
+      return input.url;
     }),
 });

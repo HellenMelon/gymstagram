@@ -13,8 +13,12 @@ export default function Page() {
 
   const { mutate: updateProfilePic } =
     api.auth.updateUserProfilePic.useMutation({
-      onSuccess() {
-        void session.update();
+      onSuccess(image) {
+        void session.update({
+          user: {
+            image,
+          },
+        });
       },
     });
 
@@ -27,13 +31,12 @@ export default function Page() {
       <div className="flex w-[80%] flex-col items-center gap-4 overflow-hidden rounded-2xl border p-10">
         {/* {JSON.stringify(session)} */}
         {session.data.user.image ? (
-          <div className="h-40 w-40 overflow-hidden rounded-full border-2 border-black">
+          <div className="relative h-40 w-40 overflow-hidden rounded-full border-2 border-black">
             <Image
               src={session.data.user.image}
               className="h-full"
               alt="logo"
-              width={300}
-              height={300}
+              layout="fill"
             />
           </div>
         ) : (

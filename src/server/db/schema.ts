@@ -73,6 +73,10 @@ export const workout = createTable("workouts", {
     .notNull(),
 });
 
+export const workoutRelations = relations(workout, ({ many }) => ({
+  workoutExercises: many(workoutExercises),
+}));
+
 /**
  * EXERCIESE SCHEMA
  */
@@ -87,15 +91,15 @@ export const exercise = createTable("exercise", {
     .references(() => users.id),
 
   name: text("name", { length: 255 }).notNull(),
-
-  time: int("time", { mode: "timestamp" })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-
-  weight: int("weight", { mode: "number" }).notNull(),
-
-  set: int("set", { mode: "number" }).notNull(),
 });
+
+export const exerciseRelations = relations(exercise, ({ one, many }) => ({
+  createdBy: one(users, {
+    fields: [exercise.createdBy],
+    references: [users.id],
+  }),
+  workoutExercises: many(workoutExercises),
+}));
 
 /**
  * MANY TO MANY WORKOUTEXERCISE SCHEMA
@@ -103,16 +107,40 @@ export const exercise = createTable("exercise", {
 export const workoutExercises = createTable(
   "workoutExercises",
   {
-    workout: text("id", { length: 255 })
+    id: text("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    workout: text("workoutId", { length: 255 })
       .references(() => workout.id)
       .notNull(),
-    exercise: text("id", { length: 255 })
+    exercise: text("exerciseId", { length: 255 })
       .references(() => exercise.id)
       .notNull(),
+
+    time: int("time", { mode: "timestamp" })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    weight: int("weight", { mode: "number" }).notNull(),
+    reps: int("reps", { mode: "number" }).notNull(),
   },
-  (workoutExercises) => ({
-    compoundKey: primaryKey({
-      columns: [workoutExercises.workout, workoutExercises.exercise],
+  // (workoutExercises) => ({
+  //   compoundKey: primaryKey({
+  //     columns: [workoutExercises.workout, workoutExercises.exercise],
+  //   }),
+  // }),
+);
+
+export const workoutExercisesRelations = relations(
+  workoutExercises,
+  ({ one }) => ({
+    workout: one(workout, {
+      fields: [workoutExercises.workout],
+      references: [workout.id],
+    }),
+    exercise: one(exercise, {
+      fields: [workoutExercises.exercise],
+      references: [exercise.id],
     }),
   }),
 );
@@ -162,7 +190,7 @@ export const groupUsers = createTable(
       .notNull(),
 
     user: text("user", { length: 255 })
-      .references(() => exercise.id)
+      .references(() => users.id)
       .notNull(),
   },
   (groupUsers) => ({
