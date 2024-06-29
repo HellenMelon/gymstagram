@@ -95,9 +95,11 @@ export const exercise = createTable("exercise", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 
-  weight: int("weight", { mode: "number" }),
+  weight: int("weight", { mode: "number" })
+    .notNull(),
 
   set: int("set", { mode: "number" })
+    .notNull()
 });
 
 
@@ -105,8 +107,12 @@ export const exercise = createTable("exercise", {
  * MANY TO MANY WORKOUTEXERCISE SCHEMA
  */
 export const workoutExercises = createTable( "workoutExercises", {
-  workout: text("id", { length: 255 }),
+  workout: text("id", { length: 255 })
+    .references(() => workout.id)
+    .notNull(),
   exercise: text("id", { length: 255 })
+    .references(() => exercise.id)
+    .notNull(),
   },
   (workoutExercises) => ({
     compoundKey: primaryKey({
