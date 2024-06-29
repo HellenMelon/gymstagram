@@ -20,7 +20,6 @@ export const posts = createTable(
   "post",
   {
     id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-    name: text("name", { length: 256 }),
     createdById: text("createdById", { length: 255 })
       .notNull()
       .references(() => users.id),
@@ -33,7 +32,6 @@ export const posts = createTable(
   },
   (example) => ({
     createdByIdIdx: index("createdById_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
   }),
 );
 
