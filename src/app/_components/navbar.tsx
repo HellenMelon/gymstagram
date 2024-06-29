@@ -3,7 +3,16 @@ import { Group, Gym, Home, Plus, ProfileCircle } from "iconoir-react";
 
 export default function Navbar() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 flex flex-row">
+    <nav
+      className="fixed bottom-0 left-0 right-0 flex flex-row"
+      style={{
+        width: "100%",
+        height: "7%",
+        backgroundColor: "white",
+        padding: "4px",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+      }}
+    >
       <Link
         href="/feed"
         className="flex aspect-square flex-grow flex-row items-center justify-center"
