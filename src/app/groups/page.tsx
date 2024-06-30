@@ -1,13 +1,10 @@
 import React from "react";
-import { Button } from "@radix-ui/themes";
 import Navbar from "../_components/navbar";
 import Header from "../_components/header";
 import Link from "next/link";
 import { api } from "~/trpc/server";
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import { group } from "~/server/db/schema";
 import { RouterOutputs } from "~/trpc/react";
 
 export default async function GroupPage() {
@@ -20,6 +17,7 @@ export default async function GroupPage() {
   return (
     <div>
       <div className="justify-top flex min-h-screen flex-col items-center bg-white">
+        <div className="p-10"></div>
         <div>
           <Header name="Groups" />
         </div>
@@ -48,8 +46,13 @@ function GroupButton({
   group: RouterOutputs["group"]["getGroupsOfUser"][number];
 }) {
   return (
-    <div className="m-5 w-full max-w-screen-2xl rounded-lg bg-[#e1fbbb] p-10 shadow-lg">
-      <h2 className="text-center text-gray-900">{group.groupName}</h2>
+    <div className="m-5 w-full max-w-screen-2xl rounded-lg bg-[#e1fbbb] p-10 text-center shadow-sm">
+      <Link
+        href={`/groups/${group.groupId}`}
+        className="text-center text-gray-900"
+      >
+        {group.groupName}
+      </Link>
     </div>
   );
 }
