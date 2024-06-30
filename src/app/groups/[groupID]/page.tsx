@@ -22,7 +22,7 @@ export default function GroupPage({ params }: { params: { groupID: string } }) {
   const foundGroup = group[0]!;
 
   return (
-    <div>
+    <div className="min-h-screen bg-[#e2f7c6]">
       <Header name={foundGroup.name} />
       <div className="p-10"></div>
       <Box
