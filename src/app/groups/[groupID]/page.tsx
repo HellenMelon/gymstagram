@@ -5,6 +5,7 @@ import { RouterOutputs, api } from "~/trpc/react";
 import Image from "next/image";
 import { Box, Checkbox, Divider, IconButton, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import Navbar from "~/app/_components/navbar";
 
 export default function GroupPage({ params }: { params: { groupID: string } }) {
   const { data: group, isLoading } = api.group.getGroup.useQuery({
@@ -115,12 +116,12 @@ export default function GroupPage({ params }: { params: { groupID: string } }) {
             // mb: 2,
           }}
         >
-          Workout Routine
+          Group Tasks
           <Typography
             variant="body2"
             // component="div"
           >
-            (Select Routine)
+            (Add to your groups tasks!)
           </Typography>
         </Typography>
 
@@ -150,6 +151,7 @@ export default function GroupPage({ params }: { params: { groupID: string } }) {
           <UserComponent key={user.name} user={user} />
         ))}
       </div>
+      <Navbar />
     </div>
   );
 }
