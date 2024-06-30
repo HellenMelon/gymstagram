@@ -21,6 +21,7 @@ const MenuProps = {
 };
 
 const names = [
+  "Daily Challenge",
   "PUSH",
   "Thighs and Hammies",
   "Core + arms",
