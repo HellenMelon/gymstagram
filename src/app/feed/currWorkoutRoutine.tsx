@@ -1,6 +1,14 @@
 "use client";
 
-import { IconButton, Typography } from "@mui/material";
+import {
+  Checkbox,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -73,12 +81,25 @@ function FeedWorkout({ id }: { id: string }) {
   if (isError || !workout) return <div>Error</div>;
 
   return (
-    <div>
-      <h2>{workout.name}</h2>
-      <ul>
+    <div className="flex flex-col">
+      <h2 className="flex flex-col items-center justify-center font-bold">
+        {workout.name}
+      </h2>
+
+      <ul className="justify-left flex flex-col">
         {workout.workoutExercises.map((we) => (
           <li key={we.id}>
-            {we.exercise.name} - {we.weight}kg x {we.reps}
+            <div>
+              <Checkbox
+                sx={{
+                  "&.Mui-checked": {
+                    color: "#bbdf8c",
+                  },
+                  color: "#bbdf8c",
+                }}
+              />
+              {we.exercise.name} - {we.weight}kg x {we.reps}
+            </div>
           </li>
         ))}
       </ul>

@@ -45,17 +45,17 @@ export default function ExerciseAdd({
         </button>
 
         <button
-          className={`flex flex-row items-center gap-1 rounded-t-xl bg-gray-100 px-4 py-2 font-medium text-black ${!newOpen && "rounded-b-xl"}`}
+          className={`flex flex-row items-center gap-1 rounded-xl bg-gray-100 px-4 py-2 font-medium text-black ${!newOpen && "rounded-b-xl"}`}
           onClick={() => setNewOpen((prev) => !prev)}
         >
-          create new exercise
+          Create new exercise
           <span className={`transition-all ${newOpen ? "rotate-180" : ""}`}>
             <NavArrowDown />
           </span>
         </button>
         {newOpen && (
           <div
-            className={`flex w-full flex-row justify-between rounded-b-xl rounded-r-xl bg-gray-100 px-4 py-3 text-black `}
+            className={`my-2 flex w-full flex-row justify-between rounded-xl rounded-r-xl bg-gray-100 px-4 py-3 text-black `}
           >
             <input
               type="text"
@@ -65,7 +65,7 @@ export default function ExerciseAdd({
               onChange={(e) => setNewExerciseName(e.target.value)}
             />
             <button
-              className="text-black"
+              className=" text-black"
               onClick={() => {
                 addExercise({
                   name: newExerciseName,

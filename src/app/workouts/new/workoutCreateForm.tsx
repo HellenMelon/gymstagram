@@ -41,22 +41,22 @@ export default function WorkoutCreateForm() {
       }}
     >
       <input
-        className="text-xl focus:outline-none"
+        className="border-b-2 border-gray-200 py-4 text-xl hover:border-[#bbdf8c] focus:outline-none"
         type="text"
         id="name"
-        placeholder="pick a workout name"
+        placeholder="Pick a workout name"
         name="name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <button
         onClick={() => setOpen(true)}
-        className="w-full rounded-xl bg-blue-500 py-3 text-center text-white hover:bg-blue-600"
+        className="w-full rounded-xl bg-[#bbdf8c] py-3 text-center text-white hover:bg-blue-600"
       >
         Add an exercise
       </button>
       {addedExercises.length > 0 ? (
-        <div className="flex flex-row font-medium underline">
+        <div className="flex flex-row gap-4 font-medium underline">
           <p className="flex-grow-[2]">Exercise Name</p>
           <p className="flex-grow text-right">Weight</p>
           <p className="flex-grow text-right">Reps</p>
