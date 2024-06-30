@@ -7,6 +7,7 @@ export default async function Home() {
   const session = await getServerAuthSession();
 
   if (!session) redirect("/auth/login");
+  else redirect("/feed");
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-[#f2cdb7] to-[#f2e0d4] text-white">
